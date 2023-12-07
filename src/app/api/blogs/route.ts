@@ -1,6 +1,7 @@
 
 import Blogs from "@/dbConnection";
 import { put } from "@vercel/blob";
+import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -14,7 +15,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req : NextResponse) {
+export async function POST(req:any) {
   try {
     const data = await req.formData()
     let object = {
@@ -25,7 +26,9 @@ export async function POST(req : NextResponse) {
       "image" :data.get("image"),
     }
     console.log(object);
-
+    // const blob = await put(object?.image?.filename ?? "sd", object.image, {
+    //   access: 'public',
+    // });
     // await Blogs.create(blogData);
 
     return NextResponse.json({ message: "Blog Created" }, { status: 201 });

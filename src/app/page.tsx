@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const getBlogs = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/blogs/recent", {
+    const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL+"/api/blogs/recent", {
       cache: "no-store",
     });
 
@@ -37,7 +37,7 @@ export default async function Home() {
             category: string[];
             imageUrl: string;
           }, index:number) => (
-            <div className={`flex ${index === 0 && 'row-span-2 flex-col'} ${index === 3 && 'col-span-2'}`}>
+            <div key={title} className={`flex ${index === 0 && 'row-span-2 flex-col'} ${index === 3 && 'col-span-2'}`}>
               <Image
                 src={imageUrl}
                 alt={`Picture of the title`}
@@ -52,7 +52,7 @@ export default async function Home() {
               <div className="flex-1 flex justify-between flex-col">
               <p>{title}</p>
               <p>{description}</p>
-              {category?.map((str) =><p>{str}</p>)}
+              {category?.map((str) =><p key={str}>{str}</p>)}
               </div>
             </div>
           )

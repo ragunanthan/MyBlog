@@ -31,7 +31,7 @@ const initialValue = {
 };
 const postBlogs = async (body: FormData) => {
   try {
-    const res = await fetch("http://localhost:3000/api/blogs", {
+    const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/blogs", {
       cache: "no-store",
       method : "POST",
       body : body

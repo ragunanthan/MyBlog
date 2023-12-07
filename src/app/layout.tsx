@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/UI/Header/Header";
+import { menuItems } from "@/utils/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,15 +11,7 @@ export const metadata: Metadata = {
   description: "My Blog site",
 };
 
-export const menuItems = [
-  { title: "Blogs", path: "/" },
-  { title: "Projects", path: "/projects" },
-  {
-    title: "About",
-    path: "/about",
-  },
-  { title: "Add Blog", path: "/addNewBlog" },
-];
+
 export default function RootLayout({
   children,
 

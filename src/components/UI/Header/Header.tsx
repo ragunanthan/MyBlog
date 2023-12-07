@@ -12,7 +12,7 @@ export default function Header({
       <h3>{name}</h3>
       <div className="flex gap-4">
         {menu.map((navMenu) => (
-          <NavMenu {...navMenu} />
+          <NavMenu key={navMenu.title} {...navMenu} />
         ))}
       </div>
     </div>
