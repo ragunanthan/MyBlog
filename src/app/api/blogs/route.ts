@@ -25,9 +25,7 @@ export async function POST(req : NextResponse) {
       "image" :data.get("image"),
     }
     console.log(object);
-    const blob = await put(object?.image?.filename ?? "sd", object.image, {
-      access: 'public',
-    });
+
     // await Blogs.create(blogData);
 
     return NextResponse.json({ message: "Blog Created" }, { status: 201 });
