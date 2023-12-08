@@ -32,6 +32,8 @@ export function FormatDate(dateTime:string) {
   return formattedDate;
 }
 
+export const itemsPerPage = 9;
+export const recentItem = 4;
 
 export const RandomColor = [
   "#6941C6",

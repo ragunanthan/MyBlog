@@ -51,6 +51,7 @@ const postBlogs = async (body: FormData) => {
 const AddEmployee: React.FC = () => {
   const [formData, setFormData] = useState<employeeFormDataType>(initialValue);
   const [errors, setErrors] = useState(initialError);
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -114,6 +115,7 @@ const AddEmployee: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await validationSchema.validate(formData, { abortEarly: false });
       var form_data = new FormData();
@@ -123,8 +125,8 @@ const AddEmployee: React.FC = () => {
       form_data.append("active", `${formData.active}` );
       form_data.append("image", formData.image);
       
-      postBlogs(form_data);
-
+      const data = await postBlogs(form_data);
+      setLoading(false);
       setErrors({ ...initialError });
       setFormData(initialValue);
     } catch (error) {
@@ -226,7 +228,7 @@ const AddEmployee: React.FC = () => {
               className="h-auto p-1 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
               type="submit"
             >
-              Submit
+              {loading ? "Uploading...! " : "Submit"}
             </button>
           </div>
         </form>
