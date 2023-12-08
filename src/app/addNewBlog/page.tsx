@@ -30,8 +30,9 @@ const initialValue = {
   image: "",
 };
 const postBlogs = async (body: FormData) => {
+  
   try {
-    const res = await fetch(process.env.BASE_URL + "/api/blogs", {
+    const res = await fetch("/api/blogs", {
       cache: "no-store",
       method : "POST",
       body : body

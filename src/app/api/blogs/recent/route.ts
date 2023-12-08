@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const blogs = await Blogs.find()
-    .sort({ timestamp: -1 }) // Sort in descending order based on timestamp
+    .sort({ createdAt: -1 }) // Sort in descending order based on timestamp
     .limit(4) ;
     
     return NextResponse.json({ data : blogs }, { status: 200 });

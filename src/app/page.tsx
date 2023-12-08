@@ -1,8 +1,8 @@
 import { PageHeader } from "@/components/UI/Header/PageHeader";
+import { FormatDate, RandomColor } from "@/utils/utils";
 import Image from "next/image";
 
 const getBlogs = async () => {
-  console.log(process.env.port);
   
   try {
     const res = await fetch(process.env.BASE_URL+"/api/blogs/recent", {
@@ -26,18 +26,20 @@ export default async function Home() {
     <div>
       <PageHeader title="My Blog" />
       <h4 className="py-6">Recent blog posts</h4>
-      <div className=" grid grid-cols-2 gap-6">
+      <div className=" grid grid-cols-2 gap-8">
         {res?.data?.map(
           ({
             title,
             description,
             category,
             imageUrl,
+            updatedAt
           }: {
             title: string;
             description: string;
             category: string[];
             imageUrl: string;
+            updatedAt : string;
           }, index:number) => (
             <div key={title} className={`flex ${index === 0 && 'row-span-2 flex-col'} ${index === 3 && 'col-span-2'}`}>
               <Image
@@ -51,13 +53,16 @@ export default async function Home() {
                   objectFit : "cover"
                 }}
               />
-              <div className="flex-1 flex justify-between flex-col py-2 px-4">
-                <p className="text-blue-700">sun </p>
+              <div className={`flex-1 flex justify-between flex-col  gap-2 ${index === 0 ? 'pt-2' : 'pl-4'}`}>
+                <p className="text-[#6941C6] text-sm">{updatedAt ? FormatDate(updatedAt) : "No date present"} </p>
               <div>
                 <p className="text-md font-medium pb-2">{title}</p>
-                <p className={`text-grey-300 line-clamp-${index === 3 ? 5 : 3}`}>{description}</p>
+                <p className={`text-gray-600 text-sm text-justify leading-relaxed   ${index ===3 ? 'line-clamp-5': 'line-clamp-3'}`}>{description}</p>
               </div>
-              <div className="flex gap-2">{category?.map((str) =><p className="p-.5 px-2 bg-[grey] rounded-2xl" key={str}>{str}</p>)}</div>
+              <div className="flex gap-3">{category?.map((str, index) =>{
+                let color = RandomColor[Math.floor(Math.random() * RandomColor.length)];
+                return <p className={`p-.5 px-2 text-sm rounded-2xl`} style={{ backgroundColor : `${color}1A`, color : color}} key={str}>{str}</p>
+              })}</div>
               </div>
             </div>
           )

@@ -1,12 +1,13 @@
 
 import Blogs from "@/dbConnection";
 import { put } from "@vercel/blob";
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const blogs = await Blogs.find();
+    const blogs = await Blogs.find()
+    .sort({ createdAt: -1 }) // Sort in descending order based on timestamp
+    .limit(4) ;
     
     return NextResponse.json({ data : blogs }, { status: 200 });
   } catch (err) {
@@ -25,12 +26,15 @@ export async function POST(req:any) {
       "active" :data.get("active"),
       "image" :data.get("image"),
     }
-    console.log(object);
-    // const blob = await put(object?.image?.filename ?? "sd", object.image, {
-    //   access: 'public',
-    // });
-    // await Blogs.create(blogData);
-
+   
+    const blob = await put(object?.image?.name ?? "sd", object.image, {
+      access: 'public',
+    });
+    await Blogs.create({
+      ...object,
+      category : JSON.parse(object.category),
+      imageUrl : blob.url
+    });
     return NextResponse.json({ message: "Blog Created" }, { status: 201 });
   } catch (err) {
     console.log(err);
