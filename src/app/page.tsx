@@ -42,7 +42,7 @@ export default async function Home() {
             updatedAt : string;
           }, index:number) => (
             <div key={title} className={`flex ${index === 0 && 'row-span-2 flex-col'} ${index === 3 && 'col-span-2'}`}>
-              <Image
+              <img
                 src={imageUrl}
                 alt={`Picture of the title`}
                 width={500}
