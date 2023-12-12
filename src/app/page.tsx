@@ -24,7 +24,21 @@ const getBlogs = async () => {
 const getItemsPerPage = async (currentPage: number) => {
   try {
     const res = await fetch(
-      process.env.BASE_URL + "/api/blogs/" + currentPage,
+      process.env.BASE_URL + "/api/blogs/pagination/" + currentPage,
+      {
+        cache: "no-store",
+      }
+    );
+    return res.json();
+  } catch (error) {
+    console.log("Error loading topics: ", error);
+  }
+};
+
+const getTotalCount = async () => {
+  try {
+    const res = await fetch(
+      process.env.BASE_URL + "/api/blogs/totalcount",
       {
         cache: "no-store",
       }
@@ -54,7 +68,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
                 index === 3 && "col-span-2"
               }`}
             >
-              <img
+              <Image
                 src={imageUrl}
                 alt={`Picture of the title`}
                 width={500}
@@ -115,6 +129,7 @@ async function AllBlogPost({ searchParams }: { searchParams: any }) {
   page = !page || page < 1 ? 1 : page;
   const perPage = itemsPerPage;
   const { data } = await getItemsPerPage(page);
+  const { totalCount } = await getTotalCount();
 
   const totalPages = Math.ceil(data.itemCount / perPage);
   const isPageOutOfRange = page > totalPages;
@@ -125,14 +140,14 @@ async function AllBlogPost({ searchParams }: { searchParams: any }) {
       <div className="grid grid-cols-3 gap-8">
       <Suspense fallback={<p>loading</p>}>
         {data.map((e: any) => (
-            <BlogCard {...e} />
+            <BlogCard {...e} key={e.title} />
           ))}
         </Suspense>
       </div>
       {isPageOutOfRange ? (
         <div>No more pages...</div>
       ) : (
-        <Pagination totalPages={totalPages} currentPage={page} />
+        <Pagination totalPages={totalCount} currentPage={page} />
       )}
     </div>
   );
@@ -147,7 +162,7 @@ function BlogCard({
 }: BlogType) {
   return (
     <div key={title}>
-      <img
+      <Image
         src={imageUrl}
         alt={`Picture of the title`}
         width={500}

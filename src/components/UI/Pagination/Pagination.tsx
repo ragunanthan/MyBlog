@@ -2,7 +2,8 @@
 import Link from "next/link";
 import React from "react";
 
-export const Pagination = ({
+
+const Pagination = ({
   currentPage,
   totalPages
 }: {
