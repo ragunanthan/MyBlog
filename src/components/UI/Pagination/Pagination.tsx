@@ -1,4 +1,5 @@
 "use client"
+import { itemsPerPage } from "@/utils/const";
 import Link from "next/link";
 import React from "react";
 
@@ -13,14 +14,9 @@ const Pagination = ({
   const prevPage = currentPage - 1 > 0 ? currentPage - 1 : 1;
     const nextPage = currentPage + 1;
 
-    const pageNumbers = [];
-    const offsetNumber = 3;
-    for (let i = currentPage - offsetNumber; i <= currentPage + offsetNumber; i++) {
-      if (i >= 1 && i <= totalPages) {
-        pageNumbers.push(i);
-      }
-    }
+    const pageNumbers = Array.from({ length: Math.ceil(totalPages/itemsPerPage) }, (_, index) => index + 1);
 
+  if(!pageNumbers?.length) return null;
  
   return (
     <div className="flex items-center justify-between p-4 text-sm">

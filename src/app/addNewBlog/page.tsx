@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import * as Yup from "yup";
 import CheckboxGroup from "@/components/formComponents/CheckboxGroup";
 import Input from "@/components/formComponents/TextInput";
@@ -48,21 +48,22 @@ const postBlogs = async (body: FormData) => {
   }
 };
 
+const validationSchema = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
+  category: Yup.array()
+    .min(1, "Select atleast one category")
+    .of(Yup.string())
+    .required("Category is required"),
+  active: Yup.boolean(),
+  image: Yup.string().required("Image is required"),
+});
+
 const AddEmployee: React.FC = () => {
   const [formData, setFormData] = useState<employeeFormDataType>(initialValue);
   const [errors, setErrors] = useState(initialError);
   const [loading, setLoading] = useState(false);
 
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
-    category: Yup.array()
-      .min(1, "Select atleast one category")
-      .of(Yup.string())
-      .required("Category is required"),
-    active: Yup.boolean(),
-    image: Yup.string().required("Image is required"),
-  });
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>

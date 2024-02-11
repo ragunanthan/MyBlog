@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -11,6 +12,7 @@ export default function NavMenu({
   title: string;
 }) {
   const pathName = usePathname();
+ 
   return (
     <Link
       href={path}
@@ -21,4 +23,15 @@ export default function NavMenu({
       {title}
     </Link>
   );
+}
+
+
+export function LoginDetail() {
+  const { data: session, status: sessionStatus } = useSession();
+  return  <>
+  {sessionStatus === "authenticated" && <p>{session?.user?.email}</p>}
+  <a href={"/login"} className="px-3 no-underline py-1 text-white bg-blue-500 rounded">
+    <>{sessionStatus === "authenticated" ? "Sign Out" :'Sign In'}</>
+    </a>
+  </>
 }

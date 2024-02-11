@@ -10,6 +10,7 @@ export async function GET(req: any, {params} : any) {
     const blogs = await Blogs.find()
     .sort({ createdAt: -1 }) // Sort in descending order based on timestamp
     .limit(4) ;
+      console.count("render recent");
       
     return NextResponse.json({ data : blogs }, { status: 200 });
    

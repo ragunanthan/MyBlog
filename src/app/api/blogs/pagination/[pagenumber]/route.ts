@@ -1,5 +1,5 @@
 import Blogs from "@/dbConnection";
-import { itemsPerPage, recentItem } from "@/utils/utils";
+import { itemsPerPage, recentItem } from "@/utils/const";
 
 import { NextResponse } from "next/server";
 
@@ -11,7 +11,7 @@ export async function GET(req: Request) {
       .sort({ createdAt: -1 })
       .skip((id - 1) * itemsPerPage + recentItem)
       .limit(itemsPerPage);
-    
+      console.count("render recent");
     return NextResponse.json({ data: blogs }, { status: 200 });
   } catch (err) {
     console.log(err);

@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/UI/Header/Header";
 import { menuItems } from "@/utils/utils";
 import { Footer } from "@/components/UI/Footer/Footer";
+import { getServerSession } from "next-auth";
+import SessionProvider from "@/utils/SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,15 +15,16 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 
 }: {
   children: React.ReactNode;
 }) {
-    
+  const session = await getServerSession();
   return (
     <html lang="en">
+      <SessionProvider session={session}>
       <body className={`max-w-[1366px] flex flex-col px-4 m-auto h-[100vh] ${inter.className}`}>
         <header className=" py-6">
           <Header name={"Ragunanthan Thangavel"} menu={menuItems} />
@@ -33,6 +36,7 @@ export default function RootLayout({
           <Footer />
         </footer>
       </body>
+      </SessionProvider>
     </html>
   );
 }

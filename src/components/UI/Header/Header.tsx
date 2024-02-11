@@ -1,6 +1,7 @@
-import NavMenu from "./NavMenu";
+import { getServerSession } from "next-auth";
+import NavMenu, { LoginDetail } from "./NavMenu";
 
-export default function Header({
+export default  function Header({
   name,
   menu,
 }: {
@@ -14,6 +15,7 @@ export default function Header({
         {menu.map((navMenu) => (
           <NavMenu key={navMenu.title} {...navMenu} />
         ))}
+      <LoginDetail />
       </div>
     </div>
   );
